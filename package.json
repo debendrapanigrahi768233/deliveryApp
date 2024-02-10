@@ -4,11 +4,14 @@
   "description": "A user management auth service",
   "main": "index.js",
   "scripts": {
-    "dev":"node src/server.ts"
+    "dev": "node src/server.ts",
+    "format:check": "prettier . --check",
+    "format:fix": "prettier . --write"
   },
   "author": "Debendra Panigrahi",
   "license": "ISC",
   "devDependencies": {
+    "prettier": "3.1.1",
     "typescript": "^5.3.3"
   }
 }
