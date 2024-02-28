@@ -1,5 +1,3 @@
-function login(username: string): string {
-  const secondname = "second";
-  return username + secondname;
-}
-login("debendra");
+import { CONFIG } from "./config/index";
+
+console.log("PORT", CONFIG.PORT);
