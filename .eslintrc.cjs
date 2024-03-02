@@ -12,5 +12,9 @@ module.exports = {
     tsconfigRootDir: __dirname,
   },
   root: true,
-  rules: { "dot-notation": "error" },
+  rules: {
+    "dot-notation": "error",
+    "@typescript-eslint/no-misused-promises": "off",
+    "@typescript-eslint/require-await": "off",
+  },
 };
