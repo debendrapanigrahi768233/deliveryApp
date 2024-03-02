@@ -1,3 +1,13 @@
-import { CONFIG } from "./config/index";
+import app from "./app";
+import { CONFIG } from "./config";
 
-console.log("PORT", CONFIG.PORT);
+const startServer = () => {
+  try {
+    app.listen(CONFIG.PORT, () => {
+      console.log(`listening on port ${CONFIG.PORT}`);
+    });
+  } catch (e) {
+    console.error(e);
+  }
+};
+startServer();
