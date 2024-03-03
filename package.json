@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "prepare": "husky install",
-    "test": "jest --watch --runInBand" 
+    "test": "jest --watch --runInBand"
   },
   "author": "Debendra Panigrahi",
   "license": "ISC",
