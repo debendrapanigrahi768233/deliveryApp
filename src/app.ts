@@ -1,14 +1,16 @@
 import express, { NextFunction, Request, Response } from "express";
 import logger from "./config/logger";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import createHttpError, { HttpError } from "http-errors";
 
 const app = express();
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.get("/", async (req, res, next) => {
-  const error = createHttpError(401, "error created");
+  // const error = createHttpError(401, "error created");
   // throw error;
-  return next(error);
-  // res.send("welcome to auth service");
+  // return next(error);
+  res.send("welcome to auth service");
 });
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
