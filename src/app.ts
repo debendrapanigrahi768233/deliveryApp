@@ -1,17 +1,19 @@
+import "reflect-metadata";
+
 import express, { NextFunction, Request, Response } from "express";
 import logger from "./config/logger";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import createHttpError, { HttpError } from "http-errors";
+import authRouter from "./routes/auth";
 
 const app = express();
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.get("/", async (req, res, next) => {
-  // const error = createHttpError(401, "error created");
-  // throw error;
-  // return next(error);
   res.send("welcome to auth service");
 });
+
+app.use("/auth", authRouter);
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err: HttpError, req: Request, res: Response, next: NextFunction) => {
