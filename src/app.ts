@@ -7,6 +7,7 @@ import createHttpError, { HttpError } from "http-errors";
 import authRouter from "./routes/auth";
 
 const app = express();
+app.use(express.json());
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.get("/", async (req, res, next) => {
