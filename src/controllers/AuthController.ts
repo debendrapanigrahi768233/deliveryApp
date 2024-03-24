@@ -7,22 +7,22 @@ import { NextFunction } from "express-serve-static-core";
 import { Logger } from "winston";
 import { validationResult } from "express-validator";
 import { JwtPayload } from "jsonwebtoken";
-import { AppDataSource } from "../config/data-source";
-import { RefreshToken } from "../entity/RefreshToken";
 import { TokenService } from "../services/TokenService";
 
+//All services are infused as dependency injection
 export class AuthController {
   userService: UserService;
-  logger: Logger;
   tokenService: TokenService;
+  logger: Logger;
+
   constructor(
     userService: UserService,
-    logger: Logger,
     tokenService: TokenService,
+    logger: Logger,
   ) {
     this.userService = userService;
-    this.logger = logger;
     this.tokenService = tokenService;
+    this.logger = logger;
   }
 
   async register(req: RegisterUserRequest, res: Response, next: NextFunction) {
@@ -56,22 +56,7 @@ export class AuthController {
       };
 
       const accessToken = this.tokenService.generateAccessToken(payload);
-
-      // //Persist the refresh token
-      const MS_IN_YEAR = 1000 * 60 * 60 * 24 * 365; //If leap year then 1y->366
-      const refreshRepository = AppDataSource.getRepository(RefreshToken);
-      const newRefreshToken = await refreshRepository.save({
-        user: user,
-        expiresAt: new Date(Date.now() + MS_IN_YEAR),
-      });
-
-      // const secretToken: string = String(CONFIG.SECRET_TOKEN_KEY);
-      // const refreshToken = sign(payload, secretToken, {
-      //   algorithm: "HS256",
-      //   expiresIn: "1y",
-      //   issuer: "auth-service",
-      //   jwtid: String(newRefreshToken.id),
-      // });
+      const newRefreshToken = await this.tokenService.persistRefreshToken(user);
 
       const refreshToken = this.tokenService.generateRefreshToken({
         ...payload,
