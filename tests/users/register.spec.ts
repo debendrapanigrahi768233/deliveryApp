@@ -6,6 +6,7 @@ import { AppDataSource } from "../../src/config/data-source";
 // import { truncateTables } from "../utils";
 import { Roles } from "../../src/constants";
 import { isJwt } from "../utils";
+import { RefreshToken } from "../../src/entity/RefreshToken";
 
 describe("POST /auth/register", () => {
   let connection: DataSource;
@@ -182,6 +183,30 @@ describe("POST /auth/register", () => {
 
       expect(isJwt(accessToken)).toBe(true);
       expect(isJwt(refreshToken)).toBeTruthy();
+    });
+
+    it("should store the refresh token in the database", async () => {
+      // Arrange
+      const userData = {
+        firstName: "Rakesh",
+        lastName: "K",
+        email: "rakesh@mern.space",
+        password: "password",
+      };
+
+      // Act
+      const response = await request(app).post("/auth/register").send(userData);
+
+      //Assert
+      const refreshRepository = connection.getRepository(RefreshToken);
+      const refreshTokensRecords = await refreshRepository
+        .createQueryBuilder("refreshToken")
+        .where("refreshToken.userId = :userId", {
+          userId: (response.body as Record<string, string>).id,
+        })
+        .getMany();
+
+      expect(refreshTokensRecords).toHaveLength(1);
     });
   });
 
