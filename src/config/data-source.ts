@@ -13,7 +13,7 @@ export const AppDataSource = new DataSource({
   database: CONFIG.DB_NAME,
   //Dont use syncronize in production as true
   // synchronize: CONFIG.NODE_ENV === "test" || CONFIG.NODE_ENV === "dev",
-  synchronize: false, //Here since from the test we are manually calling the synchronise do we commented it and kept it false here
+  synchronize: true, //Here since from the test we are manually calling the synchronise do we commented it and kept it false here
   logging: false,
   entities: [User, RefreshToken],
   migrations: [],
