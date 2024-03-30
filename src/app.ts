@@ -5,8 +5,10 @@ import logger from "./config/logger";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import createHttpError, { HttpError } from "http-errors";
 import authRouter from "./routes/auth";
+import cookieParser from "cookie-parser";
 
 const app = express();
+app.use(cookieParser());
 app.use(express.json());
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

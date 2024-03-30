@@ -5,11 +5,16 @@ const logger = winston.createLogger({
   defaultMeta: {
     serviceName: "auth-service",
   },
+  format: winston.format.combine(
+    //order is important first timestamp then json
+    winston.format.timestamp(),
+    winston.format.json(),
+  ),
   transports: [
     new winston.transports.File({
       dirname: "logs",
       filename: "app.log",
-      level: "debug",
+      level: "info",
       silent: CONFIG.NODE_ENV === "test",
     }),
     new winston.transports.File({
@@ -20,11 +25,6 @@ const logger = winston.createLogger({
     }),
     new winston.transports.Console({
       level: "info", //Here we are overriding the level of root level
-      format: winston.format.combine(
-        //order is important first timestamp then json
-        winston.format.timestamp(),
-        winston.format.json(),
-      ),
       silent: CONFIG.NODE_ENV === "test",
     }),
   ],
