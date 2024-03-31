@@ -12,6 +12,7 @@ import loginValidator from "../validators/login-validator";
 import authenticate from "../middlewares/authenticate";
 import { AuthRequest } from "../types";
 import validateResfreshToken from "../middlewares/validateResfreshToken";
+import parseRefreshToken from "../middlewares/parseRefreshToken";
 
 const router = express.Router();
 
@@ -51,6 +52,15 @@ router.post(
   validateResfreshToken,
   (req: Request, res: Response, next: NextFunction) =>
     authController.refresh(req as AuthRequest, res, next),
+);
+
+//Always post request
+router.post(
+  "/logout",
+  authenticate,
+  parseRefreshToken,
+  (req: Request, res: Response, next: NextFunction) =>
+    authController.logout(req as AuthRequest, res, next),
 );
 
 export default router;

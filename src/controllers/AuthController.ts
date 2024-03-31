@@ -173,7 +173,7 @@ export class AuthController {
 
   async self(req: AuthRequest, res: Response) {
     //token req.auth.id
-    console.log(req.auth);
+    // console.log(req.auth);
     const user = await this.userService.findById(Number(req.auth.sub));
     res.json({ ...user, password: undefined });
   }
@@ -226,6 +226,25 @@ export class AuthController {
         id: user.id,
       });
       res.status(200).json({ id: user.id });
+    } catch (err) {
+      next(err);
+      return;
+    }
+  }
+
+  async logout(req: AuthRequest, res: Response, next: NextFunction) {
+    //Delete the refresh Token by getting the refresh id inside the token
+    try {
+      await this.tokenService.deleteRefreshToken(Number(req.auth.id));
+      this.logger.info("Refresh token has been deleted", {
+        id: req.auth.id,
+      });
+      this.logger.info("User has been succesfully logged out", {
+        id: req.auth.sub,
+      });
+      res.clearCookie("refreshToken");
+      res.clearCookie("accessToken");
+      res.json({});
     } catch (err) {
       next(err);
       return;
