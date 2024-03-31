@@ -2,6 +2,7 @@ import { Request } from "express";
 import { expressjwt, GetVerificationKey } from "express-jwt";
 import jwksClient from "jwks-rsa";
 import { CONFIG } from "../config";
+import { AuthCookie } from "../types";
 
 //It will return a middleware that we can directly plug into our route
 export default expressjwt({
@@ -19,10 +20,6 @@ export default expressjwt({
         return token;
       }
     }
-
-    type AuthCookie = {
-      accessToken: string;
-    };
 
     const { accessToken } = req.cookies as AuthCookie;
     return accessToken;
