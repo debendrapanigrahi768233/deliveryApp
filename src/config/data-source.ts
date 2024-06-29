@@ -1,8 +1,9 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
-import { User } from "../entity/User";
+// import { User } from "../entity/User";
 import { CONFIG } from ".";
-import { RefreshToken } from "../entity/RefreshToken";
+// import { RefreshToken } from "../entity/RefreshToken";
+// import { Tenant } from "../entity/Tenant";
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -15,7 +16,8 @@ export const AppDataSource = new DataSource({
   // synchronize: CONFIG.NODE_ENV === "test" || CONFIG.NODE_ENV === "dev",
   synchronize: false, //Here since from the test we are manually calling the synchronise do we commented it and kept it false here
   logging: false,
-  entities: [User, RefreshToken],
+  // entities: [User, RefreshToken, Tenant],
+  entities: ["src/entity/*.ts"],
   migrations: ["src/migration/*.ts"],
   subscribers: [],
 });
