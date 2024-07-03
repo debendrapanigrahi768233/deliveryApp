@@ -13,8 +13,11 @@ const startServer = async () => {
     });
   } catch (e: unknown) {
     if (e instanceof Error) {
+      console.log(e);
       logger.error(e.message);
-      process.exit(1);
+      setTimeout(() => {
+        process.exit(1);
+      }, 1000);
     }
   }
 };
