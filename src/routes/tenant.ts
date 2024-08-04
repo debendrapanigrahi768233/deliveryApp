@@ -21,4 +21,8 @@ router.post(
     await tenantController.create(req, res, next);
   },
 );
+
+router.patch("/:id", authenticate, canAccess([Roles.ADMIN]), (req, res, next) =>
+  tenantController.update(req, res, next),
+);
 export default router;
