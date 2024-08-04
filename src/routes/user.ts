@@ -25,4 +25,9 @@ router.post(
 router.patch("/:id", authenticate, canAccess([Roles.ADMIN]), (req, res, next) =>
   userController.update(req, res, next),
 );
+
+router.get("/", authenticate, canAccess([Roles.ADMIN]), (req, res, next) =>
+  userController.getAll(req, res, next),
+);
+
 export default router;

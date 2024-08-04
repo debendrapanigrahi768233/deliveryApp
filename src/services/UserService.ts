@@ -36,9 +36,13 @@ export class UserService {
     }
   }
 
-  async findByEmail(email: string) {
-    const user = await this.userRepository.findOne({ where: { email } });
-    return user;
+  async findByEmailWithPassword(email: string) {
+    return await this.userRepository.findOne({
+      where: {
+        email,
+      },
+      select: ["id", "firstName", "lastName", "email", "role", "password"],
+    });
   }
 
   async findById(id: number) {
@@ -60,5 +64,9 @@ export class UserService {
       );
       throw error;
     }
+  }
+
+  async getAll() {
+    return await this.userRepository.find();
   }
 }
