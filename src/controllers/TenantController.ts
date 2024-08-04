@@ -66,15 +66,15 @@ export class TenantController {
     }
 
     try {
-      const tenants = await this.tenantService.getById(Number(tenantId));
+      const tenant = await this.tenantService.getById(Number(tenantId));
 
-      if (!tenants) {
-        next(createHttpError(400, "Tenant id does not exits."));
+      if (!tenant) {
+        next(createHttpError(400, "Tenant does not exit."));
         return;
       }
 
-      this.logger.info("All tenant have been fetched");
-      res.json(tenants);
+      this.logger.info("Tenant have been fetched");
+      res.json(tenant);
     } catch (err) {
       next(err);
     }
