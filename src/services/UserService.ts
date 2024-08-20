@@ -7,7 +7,14 @@ import bcrypt from "bcrypt";
 export class UserService {
   constructor(private userRepository: Repository<User>) {}
 
-  async create({ firstName, lastName, email, password, role }: UserData) {
+  async create({
+    firstName,
+    lastName,
+    email,
+    password,
+    role,
+    tenantId,
+  }: UserData) {
     //Checking for user with email already exist
     const user = await this.userRepository.findOne({ where: { email: email } });
     if (user) {
@@ -26,8 +33,10 @@ export class UserService {
         email,
         password: hashedPassword,
         role: role,
+        tenant: tenantId ? { id: tenantId } : undefined,
       });
     } catch (err) {
+      console.log("error---------------------------->", err);
       const error = createHttpError(
         500,
         "Error while pushing data to database",
