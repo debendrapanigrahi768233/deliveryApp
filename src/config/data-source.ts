@@ -17,7 +17,7 @@ export const AppDataSource = new DataSource({
   synchronize: false, //Here since from the test we are manually calling the synchronise do we commented it and kept it false here
   logging: false,
   // entities: [User, RefreshToken, Tenant],
-  entities: ["src/entity/*.ts"],
-  migrations: ["src/migration/*.ts"],
+  entities: ["src/entity/*.{ts,js}"],
+  migrations: ["src/migration/*.{ts,js}"],
   subscribers: [],
 });
