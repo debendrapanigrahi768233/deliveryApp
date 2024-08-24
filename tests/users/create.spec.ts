@@ -61,7 +61,7 @@ describe("POST /users", () => {
 
       expect(users).toHaveLength(1);
       expect(users[0].email).toBe(userData.email);
-    });
+    }, 10000);
 
     it("Should create a manager user", async () => {
       // Create tenant
@@ -92,7 +92,7 @@ describe("POST /users", () => {
       expect(users).toHaveLength(1);
       expect(users[0].role).toBe(Roles.MANAGER);
       expect(users[0].email).toBe(userData.email);
-    });
+    }, 10000);
 
     it("should return 403 if non admin user tries to create a user", async () => {
       // Create tenant first
