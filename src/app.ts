@@ -15,7 +15,7 @@ app.use(cookieParser());
 app.use(express.json());
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-app.get("/", async (req, res, next) => {
+app.get("/", (req, res, next) => {
   res.send("welcome to auth service");
 });
 
