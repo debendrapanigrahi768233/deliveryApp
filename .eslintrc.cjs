@@ -14,7 +14,9 @@ module.exports = {
   root: true,
   rules: {
     "dot-notation": "error",
-    "@typescript-eslint/no-misused-promises": "off",
     "@typescript-eslint/require-await": "off",
   },
 };
+
+//by default below rule is on
+// "@typescript-eslint/no-misused-promises": "off",
