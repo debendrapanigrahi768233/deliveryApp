@@ -1,9 +1,10 @@
+import { UserQueryParams } from "./../types/index";
 import { NextFunction, Request, Response } from "express";
 import { UserService } from "../services/UserService";
 import { CreateUserRequest, UpdateUserRequest } from "../types";
 import createHttpError from "http-errors";
 import { Logger } from "winston";
-import { validationResult } from "express-validator";
+import { matchedData, validationResult } from "express-validator";
 
 export class UserController {
   constructor(
@@ -14,7 +15,8 @@ export class UserController {
     // Validation
     const result = validationResult(req);
     if (!result.isEmpty()) {
-      return res.status(400).json({ errors: result.array() });
+      return next(createHttpError(400, result.array()[0].msg as string));
+      // return res.status(400).json({ errors: result.array() });
     }
     const { firstName, lastName, email, password, tenantId, role } = req.body;
 
@@ -44,7 +46,7 @@ export class UserController {
       return res.status(400).json({ errors: result.array() });
     }
 
-    const { firstName, lastName, role } = req.body;
+    const { firstName, lastName, role, email, tenantId } = req.body;
     const userId = req.params.id;
 
     if (isNaN(Number(userId))) {
@@ -59,6 +61,8 @@ export class UserController {
         firstName,
         lastName,
         role,
+        email,
+        tenantId,
       });
 
       this.logger.info("User has been updated", { id: userId });
@@ -70,11 +74,20 @@ export class UserController {
   }
 
   async getAll(req: Request, res: Response, next: NextFunction) {
+    //   if /users ---  then  --- {currentPage: 1, perPage: 5}       |    if /users?currentPage=3&perPage=15--- then --- {currentPage: 3, perPage: 15}
+    const validateQuery = matchedData(req, { onlyValidData: true });
     try {
-      const users = await this.userService.getAll();
+      const [users, count] = await this.userService.getAll(
+        validateQuery as UserQueryParams,
+      );
 
       this.logger.info("All users have been fetched");
-      res.json(users);
+      res.json({
+        data: users,
+        total: count,
+        currentPage: validateQuery.currentPage as number,
+        perPage: validateQuery.perPage as number,
+      });
     } catch (err) {
       next(err);
     }

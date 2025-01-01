@@ -23,5 +23,5 @@ export class User {
 
   //Multiple Users can belong to 1 tenant(restraunt)
   @ManyToOne(() => Tenant)
-  tenant: Tenant;
+  tenant: Tenant | null;
 }

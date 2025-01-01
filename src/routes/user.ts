@@ -10,6 +10,8 @@ import logger from "../config/logger";
 import { CreateUserRequest, UpdateUserRequest } from "../types";
 import createUserValidator from "../validators/create-user-validator";
 import updateUserValidator from "../validators/update-user-validator";
+import listUsersValidator from "../validators/list-users-validator";
+import { Request } from "express-jwt";
 
 const router = express.Router();
 const userRepository = AppDataSource.getRepository(User);
@@ -38,7 +40,8 @@ router.get(
   "/",
   authenticate as RequestHandler,
   canAccess([Roles.ADMIN]),
-  (req, res, next) =>
+  listUsersValidator,
+  (req: Request, res: Response, next: NextFunction) =>
     userController.getAll(req, res, next) as unknown as RequestHandler,
 );
 
